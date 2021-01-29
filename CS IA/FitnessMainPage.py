@@ -1,60 +1,55 @@
-from tkinter import*
+import tkinter as tk
+import tkMessageBox
 
-def register_user():
+root = tk.Tk()
+root.title("Fitness app for teachers")
+root.geometry("750x500")
 
-  username_info = username.get()
-  password_info = password.get()
+label = tk.Label(root, width=22, text="In this app teachers will be able to document results of students", anchor='w')
+label.config(font=("Comic sans",16))
+label.pack(side=tk.TOP, pady = 30)
 
-  file=open(username_info+".txt", "w")
-  file.write(username_info+"\n")
-  file.write(password_info)
-  file.close()
+row = tk.Frame(root)
+label = tk.Label(row, width=22, text="To document results go to the results page", anchor='w')
+label.config(font=("Comic sans",16))
+ 
+validation = row.register(results)
+number1 = tk.Entry(row, validate="key", validatecommand=('validation, %S'))
+number1.config(font=("Comic sans",16))
+ 
+row.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
+label.pack(side=tk.LEFT)
+number1.pack(side=tk.RIGHT, expand=tk.YES, fill=tk.X)
+ 
+row2 = tk.Frame(root)
+label2 = tk.Label(row2, width=22, text="Here is where teachers will document the results ", anchor='w')
+label2.config(font=("Comic sans",16))
+validation = row2.register(results)
+number2 = tk.Entry(row2, validate="key", validatecommand=(validation, '%S'))
+number2.config(font=("Comic sans",16))
+ 
+row2.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
+label2.pack(side=tk.LEFT)
+number2.pack(side=tk.RIGHT, expand=tk.YES, fill=tk.X)
 
-  username_entry.delete(0, END)
-  password_entry.delete(0, END)
+def Resultspage():
+   tkMessageBox.showinfo( "ChanigngPage", "Going to the results page")
 
-  Label(screen1, text = "Registration Sucess", fg = "green" ,font = ("calibri", 11)).pack()
+B = Tkinter.Button(top, text ="You are being sent to the results page. Here you will give the results for your students", command = Resultspage)
 
-def register():
-  global screen1
-  screen1 = Toplevel(screen)
-  screen1.title("Register")
-  screen1.geometry("300x250")
-  
-  global username
-  global password
-  global username_entry
-  global password_entry
-  username = StringVar()
-  password = StringVar()
+B.pack()
 
-  Label(screen1, text = "Please enter details below").pack()
-  Label(screen1, text = "").pack()
-  Label(screen1, text = "Username * ").pack()
-  username_entry = Entry(screen1, textvariable = username)
-  username_entry.pack()
-  Label(screen1, text = "Password * ").pack()
-  password_entry =  Entry(screen1, textvariable = password)
-  password_entry.pack()
-  Label(screen1, text = "").pack()
-  Button(screen1, text = "Register", width = 10, height = 1, command = register_user).pack()
+def Improvementspage():
+   tkMessageBox.showinfo( "ChanigngPage", "Going to the Improvementss page")
 
-def login():
-  print("Login session started")
+B = Tkinter.Button(top, text ="You are being sent to the Improvements page. Here you will give the improvements for your students", command = Resultspage)
 
+B.pack()
 
-def main_screen():
-  global screen
-  screen = Tk()
-  screen.geometry("300x250")
-  screen.title("Login or register")
-  Label(text = "Login or register", bg = "grey", width = "300", height = "2", font = ("Calibri", 13)).pack()
-  Label(text = "").pack()
-  Button(text = "Login", height = "2", width = "30", command = login).pack()
-  Label(text = "").pack()
-  Button(text = "Register",height = "2", width = "30", command = register).pack()
+def Goalspage():
+   tkMessageBox.showinfo( "ChanigngPage", "Going to the goals page")
 
-  screen.mainloop()
+B = Tkinter.Button(top, text ="You are being sent to the goals page. Here you will set the goals for your students", command = Resultspage)
 
-main_screen()
-  
+B.pack()
+tk.mainloop()
