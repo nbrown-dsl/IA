@@ -1,40 +1,60 @@
-import tkinter as tk
+from tkinter import*
 
-root = tk.Tk()
-root.title("Fitness app for teachers")
-root.geometry("750x500")
+def register_user():
 
-label = tk.Label(root, width=22, text="In this app teachers will be able to document results of students", anchor='w')
-label.config(font=("Comic sans",16))
-label.pack(side=tk.TOP, pady = 30)
+  username_info = username.get()
+  password_info = password.get()
 
-row = tk.Frame(root)
-label = tk.Label(row, width=22, text="Number 1", anchor='w')
-label.config(font=("Comic sans",16))
- 
-validation = row.register(results)
-number1 = tk.Entry(row, validate="key", validatecommand=('validation, %S'))
-number1.config(font=("Comic sans",16))
- 
-row.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
-label.pack(side=tk.LEFT)
-number1.pack(side=tk.RIGHT, expand=tk.YES, fill=tk.X)
- 
-row2 = tk.Frame(root)
-label2 = tk.Label(row2, width=22, text="Here is where teachers will document the results ", anchor='w')
-label2.config(font=("Comic sans",16))
-validation = row2.register(results)
-number2 = tk.Entry(row2, validate="key", validatecommand=(validation, '%S'))
-number2.config(font=("Comic sans",16))
- 
-row2.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
-label2.pack(side=tk.LEFT)
-number2.pack(side=tk.RIGHT, expand=tk.YES, fill=tk.X)
+  file=open(username_info+".txt", "w")
+  file.write(username_info+"\n")
+  file.write(password_info)
+  file.close()
 
-def resultss(char):
- return char.replace(".", "0", 1).isdigit()
+  username_entry.delete(0, END)
+  password_entry.delete(0, END)
 
- b1 = tk.Button(root, width = 15, text='Add', background = "Grey", command=(lambda: add_val()))
-b1.config(font=("Comic sans", 18))   
-b1.pack(side=tk.RIGHT, padx=5, pady=5)
+  Label(screen1, text = "Registration Sucess", fg = "green" ,font = ("calibri", 11)).pack()
 
+def register():
+  global screen1
+  screen1 = Toplevel(screen)
+  screen1.title("Register")
+  screen1.geometry("300x250")
+  
+  global username
+  global password
+  global username_entry
+  global password_entry
+  username = StringVar()
+  password = StringVar()
+
+  Label(screen1, text = "Please enter details below").pack()
+  Label(screen1, text = "").pack()
+  Label(screen1, text = "Username * ").pack()
+  username_entry = Entry(screen1, textvariable = username)
+  username_entry.pack()
+  Label(screen1, text = "Password * ").pack()
+  password_entry =  Entry(screen1, textvariable = password)
+  password_entry.pack()
+  Label(screen1, text = "").pack()
+  Button(screen1, text = "Register", width = 10, height = 1, command = register_user).pack()
+
+def login():
+  print("Login session started")
+
+
+def main_screen():
+  global screen
+  screen = Tk()
+  screen.geometry("300x250")
+  screen.title("Login or register")
+  Label(text = "Login or register", bg = "grey", width = "300", height = "2", font = ("Calibri", 13)).pack()
+  Label(text = "").pack()
+  Button(text = "Login", height = "2", width = "30", command = login).pack()
+  Label(text = "").pack()
+  Button(text = "Register",height = "2", width = "30", command = register).pack()
+
+  screen.mainloop()
+
+main_screen()
+  
