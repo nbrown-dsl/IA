@@ -1,56 +1,66 @@
-from tkinter import*
+from tkinter import *
 import sqlite3
 
-root = tk.Tk()
+root = Tk()
 root.title("Database")
 root.geometry("750x500")
 
 conn = sqlite3.connect('TeachersDatabase.db')
 
-conn.cusror()
+c = conn.cursor()
 
-c.execute(""CREATE TABLE addresses (
-   first_name text,
-   last_name text,
-   year text,
-   results text,
-   improvements text,
-   goals text,
-""))
+# c.execute("""CREATE TABLE addresses (
+#    first_name text,
+#    last_name text,
+#    year text,
+#    results text,
+#    improvements text,
+#    goals text
+# )""")
+
 def submit():
- conn = sqlite3.connect('TeachersDatabase.db')
+    conn = sqlite3.connect('TeachersDatabase.db')
 
- c = conn.cursor()
+    c = conn.cursor()
 
- c.execute("INSERT INTO addresses VALUES (:f_name, :l_name, :year, :results, :improvements, :goals)",)
-          {
-              'f_name': f_name.get(),
-              'l_name': l_name.get(),
-              'year': year.get(),
-              'results': results.get(),
-              'improvements': improvements.get(),
-              'goals': goals.get(),
-          }
-          f_name.delete(0, END)
-          l_name.delete(0, END)
-          year.delete(0, END)
-          results.delete(0, END)
-          improvements.delete(0, END)
-          goals.delete(0, END)
+
+    c.execute("""INSERT INTO addresses VALUES (:f_name, :l_name, :year, :results, :improvements, :goals)""",
+            {
+                'f_name': f_name.get(),
+                'l_name': l_name.get(),
+                'year': year.get(),
+                'results': results.get(),
+                'improvements': improvements.get(),
+                'goals': goals.get(),
+            })
+    #Commit Changes
+    conn.commit()
+ 
+    # Close Connection 
+    conn.close()
+
+    f_name.delete(0, END)
+    l_name.delete(0, END)
+    year.delete(0, END)
+    results.delete(0, END)
+    improvements.delete(0, END)
+    goals.delete(0, END)
 
 def query():
-    return
+    
 
     conn = sqlite3.connect('TeachersDatabase.db')
 
     c = conn.cursor()
 
-    c.execute("SELECT *, oid FROM adresses")
+    c.execute("SELECT *, oid FROM addresses")
     records = c.fetchall()
     print(records)
 
+    print_records = ""
+
     for record in records[0]:
-        print_records += str(record[0]) + "\n"
+        print_records += str(record) + "\n"
 
     query_label = Label(root, text=print_records)
     query_label.grid(row=8, column=0, columnspan=2)
@@ -60,17 +70,17 @@ def query():
     conn.close()
 
 f_name = Entry(root, width=30)
-f_name.grid(row=0, column=1,padx20)
+f_name.grid(row=0, column=1,padx=20)
 l_name = Entry(root, width=30)
-l_name.grid(row=1, column=1,padx20)
+l_name.grid(row=1, column=1,padx=20)
 year = Entry(root, width=30)
-year.grid(row=2, column=1,padx20)
+year.grid(row=2, column=1,padx=20)
 results = Entry(root, width=30)
-results.grid(row=3, column=1,padx20)
+results.grid(row=3, column=1,padx=20)
 improvements = Entry(root, width=30)
-improvements.grid(row=4, column=1,padx20)
+improvements.grid(row=4, column=1,padx=20)
 goals = Entry(root, width=30)
-goals.grid(row=5, column=1,padx20)
+goals.grid(row=5, column=1,padx=20)
 
 f_name_label = Label(root, text="First Name")
 f_name_label.grid(row=0, column=0)
@@ -89,7 +99,7 @@ submit_btn = Button(root, text="Add Record To Database", command=submit)
 submit_btn.grid(row=6, column=0, columnspan=2, pady=10, padx=10, ipadx=100)
 
 query_btn = Button(root, text="Show Records", command=query)
-query_btn.grid(row=7, cloumn=0, columnspand=2, pady=10, padx=10, ipadx=137)
+query_btn.grid(row=7, column=0, columnspan=2, pady=10, padx=10, ipadx=137)
 
 conn.commit()
 
